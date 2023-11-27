@@ -9,4 +9,12 @@
     <a href="{% url 'article_delete' article.pk %}">Delete</a>
 </p>
 <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
+<div>
+    <h3>Comments</h3>
+    <ul>
+        {% for comment in article.comments.all %}
+        <li>{{ comment.comment }} ({{ comment.author }})</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock content %}
