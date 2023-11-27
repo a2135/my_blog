@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     "accounts",
     "pages",
+    "articles",
 ]
 
 MIDDLEWARE = [
@@ -169,6 +170,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 #EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_REQUIRED = False
@@ -178,9 +180,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 DEFAULT_FROM_EMAIL = "admin@myblogsite.com"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND")
 EMAIL_HOST = 'smtp.mail.me.com'
-EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default=None)
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD", default=None)
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
