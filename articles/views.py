@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
+from django.db.models import Q
 
 from .models import Article
 from .forms import CommentForm
@@ -91,3 +92,14 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+
+
+class SearchResultsListView(ListView):
+    model = Article
+    context_object_name = "article_list"
+    template_name = "articles/search_results.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        return Article.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
